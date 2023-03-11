@@ -22,7 +22,7 @@ class LoginTest extends DuskTestCase
                 ->type('password', 'password') //type属性がpasswordの要素のもの(今回ではinputタグ)に'password'と入力するという意味。
                 ->press('LOG IN') //要素のコンテンツがLOG INである要素をクリックする。
                 ->assertPathIs('/tweet') // /tweetに遷移したことを確認する。
-                ->assertSee("呟きあぷり");
+                ->assertSee("呟きぷり");
         });
     }
 }
