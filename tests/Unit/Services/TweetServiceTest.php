@@ -21,7 +21,7 @@ class TweetServiceTest extends TestCase
             'user_id'=>1
         ]);
         // $this->assertTrue(true);
-        $result = $tweetService->checkOwnTweet(1, 10000);
+        $result = $tweetService->checkOwnTweet(11, 11);
         $this->assertTrue($result);
 
         $result = $tweetService->checkOwnTweet(2, 1);
