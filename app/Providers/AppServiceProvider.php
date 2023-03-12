@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
 
 
 
-        
+
 
         //
         $this->app->bind(Cloudinary::class, function () {
@@ -53,4 +53,12 @@ class AppServiceProvider extends ServiceProvider
     {
         //
     }
+
+
+
+
+
+
+    
+
 }
