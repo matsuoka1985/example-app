@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Modules\ImageUpload\CloundinaryImageManager;
+use App\Modules\ImageUpload\CloudinaryImageManager;
 use App\Modules\ImageUpload\ImageManagerInterface;
 use App\Modules\ImageUpload\LocalImageManager;
 
@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         //
-        $this->app->bind(Cloundinary::class, function () {
+        $this->app->bind(Cloudinary::class, function () {
             return new Cloudinary([
                 'cloud'=>[
                     'cloud_name'=>config('cloudnary.cloud_name'),
