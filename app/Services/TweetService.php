@@ -6,10 +6,16 @@ use Carbon\Carbon;
 use App\Models\Image;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Modules\ImageUpload\ImageManagerInterface;
 
 //モデルに定義された関数を実行する箇所を切り出すためのクラス。
 //これによってコントローラー内においてはモデルを操作する記述を隠蔽できる。
 class TweetService{
+
+    public function __construct(private ImageManagerInterface $imageManager){
+
+    }
+
     public function getTWeets(){
         return Tweet::with('images')->orderBy('created_at','DESC')->get();
     }
@@ -40,9 +46,11 @@ class TweetService{
                 $tweet->save();
 
                 foreach($images as $image){
-                    Storage::putFile('public/images', $image);
+                    $name = $this->imageManager->save($image);
+                    // Storage::putFile('public/images', $image);
                     $imageModel = new Image();
-                    $imageModel->name = $image->hashName();
+                    // $imageModel->name = $image->hashName();
+                    $imageModel->name = $name;
                     $imageModel->save();
                     $tweet->images()->attach($imageModel->id);
                 }
@@ -55,10 +63,11 @@ class TweetService{
         DB::transaction(function () use ($tweetId) {
             $tweet = Tweet::where('id', $tweetId)->firstOrFail();
             $tweet->images()->each(function ($image) use ($tweet) {
-                $filePath = 'public/images/' . $image->name;
-                if (Storage::exists($filePath)) {
-                    Storage::delete($filePath);
-                }
+                // $filePath = 'public/images/' . $image->name;
+                // if (Storage::exists($filePath)) {
+                //     Storage::delete($filePath);
+                // }
+                $this->imageManager->delete($image->name);
                 $tweet->images()->detach($image->id);
                 $image->delete();
             });
